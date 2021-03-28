@@ -1,20 +1,35 @@
 from rest_framework import serializers
 
 from users.serializers import ProfileSerializer
-from .models import Post
+from .models import Post, Comment
+
+
+class CommentSerializer(serializers.ModelSerializer):
+    profile = ProfileSerializer(read_only=True)
+
+    class Meta:
+        model = Comment
+        fields = ("pk", "profile", "post", "text")
+
+
+class CommentCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Comment
+        fields = ("post", "text")
 
 
 class PostSerializer(serializers.ModelSerializer):
     profile = ProfileSerializer(read_only=True)
+    comments = CommentSerializer(many=True, read_only=True)
 
     class Meta:
         model = Post
         fields = ("pk", "profile", "title", "body", "image", "published_date",
-                  "likes")
+                  "likes", "comments")
 
 
 class PostCreateSerializer(serializers.ModelSerializer):
-    image = serializers.ImageField(use_url=True, required=False)
+    # image = serializers.ImageField(use_url=True, required=False)
 
     class Meta:
         model = Post

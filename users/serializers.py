@@ -1,12 +1,14 @@
-from django.contrib.auth.models import User # User 모델
-from django.contrib.auth.password_validation import validate_password # Django의 기본 패스워드 검증 도구
+from django.contrib.auth.models import User  # User 모델
+# Django의 기본 패스워드 검증 도구
+from django.contrib.auth.password_validation import validate_password
 from django.contrib.auth import authenticate
 
 from rest_framework import serializers
-from rest_framework.authtoken.models import Token # Token 모델
-from rest_framework.validators import UniqueValidator # 이메일 중복 방지를 위한 검증 도구
+from rest_framework.authtoken.models import Token  # Token 모델
+from rest_framework.validators import UniqueValidator  # 이메일 중복 방지를 위한 검증 도구
 
 from .models import Profile
+
 
 class RegisterSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(
@@ -59,4 +61,4 @@ class LoginSerializer(serializers.Serializer):
 class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
-        fields = ("nickname", "position", "subjects")
+        fields = ("nickname", "position", "subjects", "image")
